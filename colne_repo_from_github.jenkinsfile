@@ -1,0 +1,37 @@
+pipeline{
+    agent any // This defines where this whole test will be done.
+    stages{
+        stage("Clone repo from github"){
+            steps{
+                echo "========executing Colone repo form github========"
+                git credentialsId: '12345678', url: 'git@github.com:almabud/django-recipe-rest-api.git'
+                // credentialsId is an unique identifire for the jenkins. You can give as your wish but must be unique. url: is the github repo
+            }
+            post{
+                always{
+                    echo "========always========"
+                    sh 'pwd'  // by sh you can run shell command
+                    sh 'ls -l'
+                }
+                success{
+                    echo "========Clone repo from github executed successfully========"
+                }
+                failure{
+                    echo "========Clone repo from github execution failed========"
+                }
+            }
+        }
+    }
+    // post{
+    //     always{
+    //         echo "========always========"
+    //     }
+    //     success{
+    //         echo "========pipeline executed successfully ========"
+    //     }
+    //     failure{
+    //         echo "========pipeline execution failed========"
+    //     }
+    // }
+    // you can add post after the stages block and that should be run after the execution of the stages{}
+}
